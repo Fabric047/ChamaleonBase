@@ -13,7 +13,10 @@ def dec_a_bytes(valor: str) -> bytes:
 def hex_a_bytes(valor: str) -> bytes:
     clean_str = valor.removeprefix("0x").replace(" ", "")
     if len(clean_str) % 2 != 0:
-        clean_str = "0" + clean_str
+        raise ValueError(
+            f"cantidad impar de dígitos hex ({len(clean_str)}); "
+            "cada byte necesita 2 dígitos (ej: 0f, no f)"
+        )
     return bytes.fromhex(clean_str)
 
 def bin_a_bytes(valor: str) -> bytes:
@@ -42,8 +45,13 @@ def bytes_a_bin(datos: bytes) -> str:
     return string
 
 def bytes_a_ascii(datos: bytes) -> str:
-    string = datos.decode("ascii")
-    return string
+    try:
+        return datos.decode("ascii")
+    except UnicodeDecodeError as e:
+        raise ValueError(
+            f"el byte 0x{datos[e.start]:02x} en la posición {e.start} no es ASCII "
+            f"(el rango válido es 0x00-0x7f). Bytes recibidos: {datos.hex(' ')}"
+        )
 
 def bytes_a_base64(datos: bytes) -> str:
     import base64
