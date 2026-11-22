@@ -27,8 +27,8 @@
 
 1. Clona o descarga este repositorio en tu máquina local:
    ```bash
-   git clone <url-de-tu-repositorio>
-   cd <carpeta-del-proyecto>
+   git clone https://github.com/Fabric047/ChamaleonBase.git
+   cd ChamaleonBase
    ```
 
 2. Instala la dependencia necesaria:
